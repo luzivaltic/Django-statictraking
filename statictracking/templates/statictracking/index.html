@@ -1,0 +1,151 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOL Static Tracking</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <!-- <link rel="stylesheet" href="/static/javascript.js"> -->
+    <script src="https://kit.fontawesome.com/778dc16880.js" crossorigin="anonymous"></script>
+</head>
+<body style="color: white;" >
+    <ul style="display: none;" >
+        <li class="cs" > {{ cs }} </li>
+        <li class="death" > {{ death }} </li>
+        <li class="time" > {{ time }} </li>
+        <li class="property" > {{ property }}</li>
+    </ul>
+
+    <div class="container">
+        <section class="user-board">
+            <img src="/static/images/logo.png" alt="" class="logo">
+            
+            <div class="user-info">
+                <div class="name">
+                    <img src="/static/images/gamepad-solid 1.png" alt="">
+                    <div class="inner-name"> {{ request.user.username }} </div>
+                </div>
+
+                <div class="game-played overall-info">
+                      <img src="/static/images/swords (1) 1.png" alt="">
+                        Game played:     <span class="number"> {{ game_played }} </span>
+                </div>
+
+                <div class="win-rate overall-info">
+                    <img src="/static/images/rating 1.png" alt="">
+                        Win rate:   <span class="number" > {{ win_rate }}%</span>
+                </div>
+            </div>
+
+            <div class="user-options" >
+                <div class="option">
+                    <img src="/static/images/book-journal-whills-solid 1.png" alt="">
+                    <span class="num-game" data-num="10" >Past 10 games </span>
+                </div>
+                <div class="option">
+                    <img src="/static/images/book-journal-whills-solid 1.png" alt="">
+                    <span class="num-game" data-num="25" > Past 25 games </span>
+                </div>
+                <div class="option">
+                    <img src="/static/images/book-journal-whills-solid 1.png" alt="">
+                    <span class="num-game" data-num="{{game_played}}" >All games</span>
+                </div>
+                <div class="option">
+                    <img src="/static/images/eraser.png" alt="">
+                    <span class="delete-game" > <a href="{% url 'delete_game' %}"> Delete game </a> </span>
+                </div>
+                <div class="option">
+                    <img src="/static/images/Vector.png" alt="">
+                    <span> <a href="{% url 'logout' %}">Log out</a> </span>
+                </div>
+            </div>
+
+        </section>
+        <section class="status-board">
+            <h3>Current Status</h3>
+            <div class="add-new-game" id="add-game-button" >
+                + Add new game
+            </div>
+        </section>
+        <section class="user-analyze">
+
+            <div class="chart-data">
+                <div class="chart-container">
+                    <canvas id="cs-chart" ></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-data">
+                <div class="chart-container">
+                    <canvas id="death-chart" ></canvas>
+                </div>
+            </div>
+
+            <div class="property-check">
+                <form action="{% url 'add_property' %}" class="add-property" method="post" >
+                    {% csrf_token %}
+                    <input type="submit" value="+" class="submit" >
+                    <input type="text" placeholder="Add new property" name="new_property" class="text-input" >
+                </form>
+
+                <div class="property-container">
+                    {% for content in properties %}
+                        <div class="property-box">
+                            <div class="content">{{ content }}</div>
+                            <div class="info">
+                                Total : <span class="total" style="opacity: 1;" >4</span><br>
+                                Win rate : <span class="win-rate" style="opacity: 1;" >50%</span>
+                            </div>
+                            <div class="delete-property">
+                                <a href="{% url 'delete_property' content %}">
+                                    <img src="/static/images/trash-can-solid 1.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+
+        </section>
+    
+        <section class="add-game inactive" id="add-game-section" >
+            <form action="{% url 'add_game' %}" method="post" id="add-form" >
+                {% csrf_token %}
+                <div class="number-input">
+                    <input type="number" name="cs" required placeholder="Cs number">
+                    <input type="number" name="death" required placeholder="Death count" >
+                    <input type="number" name="time" required placeholder="Game time">
+                </div>
+
+                <div class="check-input">
+                    <div class="property">
+                        <input type="checkbox" name="game-result">
+                        <label for="game-result">Win game</label>        
+                    </div>
+                    
+                    {% for content in properties %}
+                        <div class="property">                
+                            <input type="checkbox" name="{{content}}">
+                            <label for="{{ content }}"> {{ content }} </label>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <input type="submit" value="Submit" id="submit-add-game-button" >
+            </form>
+        </section>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+<script src='{% static "js/javascript.js" %}'></script>
+
+</html>
