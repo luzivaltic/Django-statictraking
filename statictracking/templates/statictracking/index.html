@@ -65,7 +65,7 @@
 
         </section>
         <section class="status-board">
-            <h3>Current Status</h3>
+            <h3>Current Status : <span id="cur-status"></span> </h3>
             <div class="add-new-game" id="add-game-button" >
                 + Add new game
             </div>
@@ -99,7 +99,7 @@
                                 Total : <span class="total" style="opacity: 1;" >4</span><br>
                                 Win rate : <span class="win-rate" style="opacity: 1;" >50%</span>
                             </div>
-                            <div class="delete-property">
+                            <div class="delete-property" >
                                 <a href="{% url 'delete_property' content %}">
                                     <img src="/static/images/trash-can-solid 1.png" alt="">
                                 </a>
@@ -143,9 +143,5 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/Draggable.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
 <script src='{% static "js/javascript.js" %}'></script>
-
 </html>

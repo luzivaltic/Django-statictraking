@@ -29,14 +29,22 @@ function displayData( num_game )
         labels.push("");
     }
     
-    console.log( num_game )
     cur_cs = []
     cur_death = []
     num_game = Math.min( num_game , cs.length )
+    let average_cs = 0
+    let average_death = 0
+
     for(let i = cs.length - num_game; i < cs.length; i++){
         cur_cs.push( cs[i] );
         cur_death.push( death[i] );
+        
+        average_cs += cs[i] / num_game
+        average_death += death[i] / num_game
     }
+
+    average_cs = average_cs.toFixed(2)
+    average_death = average_death.toFixed(2)
 
     const csData = {
         labels : labels,
@@ -61,7 +69,7 @@ function displayData( num_game )
                 y : {
                     type : 'linear',
                     min : 0,
-                    max : 10,
+                    max : 12,
                     ticks : {
                         callback: function(val) {
                             return val + ' cs/m';
@@ -73,7 +81,7 @@ function displayData( num_game )
             plugins : {
                 title : {
                     display : true,
-                    text : 'CS Average: 5',
+                    text : 'CS Average: ' + average_cs,
                 }
             }
             
@@ -120,7 +128,7 @@ function displayData( num_game )
             plugins : {
                 title : {
                     display : true,
-                    text : 'Death Average: 5',
+                    text : 'Death Average: ' + average_death,
                 }
             }
             
@@ -131,6 +139,17 @@ function displayData( num_game )
         deathCanvas,
         deathConfig,
     )
+
+    // cur status
+    let x;
+    if( num_game == cs.length ) {
+        x = "All game";      
+    }
+    else {
+        x = num_game + " game";
+    }
+
+    document.getElementById("cur-status").textContent = x;
 }
 
 displayData( cs.length )

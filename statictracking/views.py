@@ -34,12 +34,14 @@ def index(request):
     property = []
 
     for content in properties:
+        if content.property_content == "":
+            username.user_property.remove(content)
         total_games = content.games.filter( game_user = username ).all().count()
         win_games = content.games.filter( game_user = username ).filter( game_res = True ).all().count()
         if total_games != 0 :
             property.append ([ total_games,int(win_games / total_games * 100 )])
         else :
-            property.append( [ 0 , 0 ]  )
+            property.append( [ 0 , 0 ] )
 
     return render(request , "statictracking/index.html" , {
         "games" : games,
@@ -88,6 +90,8 @@ def register(request):
 def add_property(request):
     if request.method == "POST":
         username = Username.objects.filter( username = request.user.username ).first()
+        if request.POST["new_property"] == "":
+            return HttpResponseRedirect( reverse("index") )
         new_property = Property.objects.filter( property_content = request.POST["new_property"] ).first()
         if new_property == None:
             new_property = Property.objects.create( property_content = request.POST["new_property"] )
@@ -95,7 +99,7 @@ def add_property(request):
     
     return HttpResponseRedirect( reverse("index") )
 
-def delete_property(request , content ):
+def delete_property(request , content ):  
     username = Username.objects.get( username = request.user.username )
     cur_property = Property.objects.get( property_content = content )
     cur_property.user.remove(username)

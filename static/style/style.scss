@@ -25,8 +25,6 @@ body {
     grid-template-rows: 0.08fr 0.92fr;
     color: white;
 
-    
-
     .user-board {
         background-color: #060912;
         grid-row: 1 / span 3;
@@ -80,6 +78,7 @@ body {
                 border-end-end-radius: 20px;
                 border-top-right-radius: 20px;
                 font-size: clamp( 10px , 1vw , 15px ) ;
+                transition: all 0.25s;
 
                 img {
                     width: 15px;
@@ -87,6 +86,7 @@ body {
                 }
                 &:hover {
                     cursor: pointer;
+                    background-color: rgba(0, 0, 255, 0.336);
                 }
 
                 a {
@@ -96,10 +96,7 @@ body {
             }
         }
 
-        .log-out {
-            position: absolute;
-            bottom: 10%;
-        }
+        
     }
 
     .status-board {
@@ -235,10 +232,8 @@ body {
                         position: absolute;
                         right: 0;
                         top: 0;
-                        
                         width: 30px;
                         height: 30px;
-
                         @include flex-center;
                         background-color: blue;
                         cursor: pointer;
